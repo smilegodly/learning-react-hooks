@@ -3,21 +3,43 @@ import axios from "axios";
 const googleKey = "Place Google Translate API Key Here";
 
 const Convert = ({ language, text }) => {
-  useEffect(() => {
-    axios.post(
-      "https://translation.googleapis.com/language/translate/v2",
-      {},
-      {
-        params: {
-          q: text,
-          target: language.value,
-          key: googleKey,
-        },
-      }
-    );
-  }, [language, text]);
+  const [translated, setTranslated] = useState("");
+  const [debouncedText, setDebouncedText] = useState(text);
 
-  return <div />;
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setDebouncedText(text);
+    }, 500);
+
+    //cleanup
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [text]);
+
+  useEffect(() => {
+    const doTranslation = async () => {
+      const { data } = await axios.post(
+        "https://translation.googleapis.com/language/translate/v2",
+        {},
+        {
+          params: {
+            q: debouncedText,
+            target: language.value,
+            key: googleKey,
+          },
+        }
+      );
+      setTranslated(data.data.translations[0].translatedText);
+    };
+    doTranslation();
+  }, [language, debouncedText]);
+
+  return (
+    <div>
+      <h1 className="ui header">{translated}</h1>
+    </div>
+  );
 };
 
 export default Convert;
