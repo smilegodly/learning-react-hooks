@@ -3,26 +3,46 @@ import Accordion from "./components/Accordion";
 import Search from "./components/Search";
 import Dropdown from "./components/Dropdown";
 import Translate from "./components/Translate";
+import Route from "./components/Route";
+import Header from "./components/Header";
 
 const options = [
   {
-    label: "The Color Red",
-    value: "red",
+    title: "The Color Red",
+    content: "red",
   },
   {
-    label: "The Color Green",
-    value: "green",
+    title: "The Color Green",
+    content: "green",
   },
   {
-    label: "A Shade of Blue",
-    value: "blue",
+    title: "A Shade of Blue",
+    content: "blue",
   },
 ];
 
 const App = () => {
+  const [selected, setSelected] = useState(options[0]);
   return (
     <div>
-      <Translate />
+      <Header />
+      <Route path="/">
+        <Accordion items={options} />
+      </Route>
+      <Route path="/list">
+        <Search />
+      </Route>
+      <Route path="/dropdown">
+        <Dropdown
+          label={"Select a color"}
+          options={options}
+          selected={selected}
+          onSelectedChange={setSelected}
+        />
+      </Route>
+      <Route path="/translate">
+        <Translate />
+      </Route>
     </div>
   );
 };

@@ -21,19 +21,19 @@ const Dropdown = ({ label, options, selected, onSelectedChange }) => {
   }, []);
 
   const renderedOptions = options.map((option) => {
-    if (option.value === selected.value) {
+    if (option.content === selected.content) {
       return null;
     }
 
     return (
       <div
-        key={option.value}
+        key={option.content}
         className="item"
         onClick={() => {
           onSelectedChange(option);
         }}
       >
-        {option.label}
+        {option.title}
       </div>
     );
   });
@@ -49,7 +49,7 @@ const Dropdown = ({ label, options, selected, onSelectedChange }) => {
           }}
         >
           <i className="dropdown icon"></i>
-          <div className="text">{selected.label}</div>
+          <div className="text">{selected.title}</div>
           <div className={`menu ${open ? "visible transition" : ""}`}>
             {renderedOptions}
           </div>

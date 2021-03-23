@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-const googleKey = "Place Google Translate API Key Here";
+const googleKey = "";
 
 const Convert = ({ language, text }) => {
   const [translated, setTranslated] = useState("");
@@ -25,7 +25,7 @@ const Convert = ({ language, text }) => {
         {
           params: {
             q: debouncedText,
-            target: language.value,
+            target: language.content,
             key: googleKey,
           },
         }
